@@ -26,12 +26,10 @@ public class ItemDao implements IDao<Item> {
     @Override
     public void insert(Item t) {
         String query = "INSERT INTO Item (itemId, sellerId, title, description, startPrice, timeleft, startBindingData, bidincrement, buyitnow) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        Connection connection = null;
+
         try {
-
+            Connection connection = ConnectionFactory.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query);
-
-            connection = ConnectionFactory.getConnection();
 
             preparedStatement.setInt(1, t.getItemid());
             preparedStatement.setInt(2, t.getSellerid());
@@ -39,12 +37,15 @@ public class ItemDao implements IDao<Item> {
             preparedStatement.setString(4, t.getDescription());
             preparedStatement.setDouble(5, t.getStartprice());
             preparedStatement.setInt(6, t.getTimeleft());
-            preparedStatement.setDate(7, (Date) t.getStartbindingdata());
+            preparedStatement.setDate(7, new java.sql.Date(t.getStartbindingdata().getTime()));
             preparedStatement.setInt(8, t.getBidincrement());
             preparedStatement.setInt(9, t.getBuyitnow());
             preparedStatement.execute();
         } catch (SQLException ex) {
+            System.out.println("object not insert");
         } catch (Exception ex) {
+            System.out.println("object not insert");
+
         }
     }
 
