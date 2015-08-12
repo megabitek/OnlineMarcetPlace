@@ -27,11 +27,8 @@ public class UserListDao implements IDao<Userlist> {
         String query = "insert into userlist (userid, fullname, login , password, billingadress) values (?, ?, ?, ?, ?)";
         Connection connection = null;
         try {
-
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-
             connection = ConnectionFactory.getConnection();
-
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, t.getUserid());
             preparedStatement.setString(2, t.getFullname());
             preparedStatement.setString(3, t.getLogin());

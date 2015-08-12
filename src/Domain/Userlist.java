@@ -5,19 +5,7 @@
  */
 package Domain;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Collection;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
@@ -32,7 +20,6 @@ public class Userlist  {
     private String login;
     private String password;
     private String billingadress;
-    private Collection<Item> itemCollection;
     private Collection<Bids> bidsCollection;
 
     public Userlist() {
@@ -42,9 +29,12 @@ public class Userlist  {
         this.userid = userid;
     }
 
-    public Userlist(int userid, String fullname) {
+    public Userlist(int userid, String fullname, String login, String password, String billingAdress) {
         this.userid = userid;
         this.fullname = fullname;
+        this.login=login; 
+        this.password= password; 
+        this.billingadress = billingAdress; 
     }
 
     public int getUserid() {
@@ -87,44 +77,12 @@ public class Userlist  {
         this.billingadress = billingadress;
     }
 
-    @XmlTransient
-    public Collection<Item> getItemCollection() {
-        return itemCollection;
-    }
-
-    public void setItemCollection(Collection<Item> itemCollection) {
-        this.itemCollection = itemCollection;
-    }
-
-    @XmlTransient
-    public Collection<Bids> getBidsCollection() {
-        return bidsCollection;
-    }
 
     public void setBidsCollection(Collection<Bids> bidsCollection) {
         this.bidsCollection = bidsCollection;
     }
 
-  /*  @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (userid != null ? userid.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Userlist)) {
-            return false;
-        }
-        Userlist other = (Userlist) object;
-        if ((this.userid == null && other.userid != null) || (this.userid != null && !this.userid.equals(other.userid))) {
-            return false;
-        }
-        return true;
-    }*/
-
+  
     @Override
     public String toString() {
         return "Domain.Userlist[ userid=" + userid + " ]";

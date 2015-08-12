@@ -7,7 +7,7 @@ package DAO;
 
 import Domain.Bids;
 import java.sql.Connection;
-import java.sql.PreparedStatement; 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ import onlinemarketplace.ConnectionFactory;
 
 /**
  *
- * @author 
+ * @author
  */
 public class BidsDao implements IDao<Bids> {
 
@@ -27,10 +27,8 @@ public class BidsDao implements IDao<Bids> {
         String query = "insert into bids (bidId, bidderID,  itemId, bid) values (?, ?, ?, ?)";
         Connection connection = null;
         try {
-
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-
             connection = ConnectionFactory.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
 
             preparedStatement.setInt(1, t.getBidid());
             preparedStatement.setInt(2, t.getBidderid());
@@ -69,37 +67,37 @@ public class BidsDao implements IDao<Bids> {
             preparedStatement.setInt(2, t.getItemid());
             preparedStatement.setInt(3, t.getBid());
             preparedStatement.execute();
-        } catch (Exception ex) {}
+        } catch (Exception ex) {
+        }
     }
 
     @Override
     public Bids searchByID(int id) {
-        
 
-            Bids Object = new Bids();
-            String query = ("select * from bids where id=?");
-            try {
-                Connection Connection = ConnectionFactory.getConnection();
-                PreparedStatement Statement = Connection.prepareStatement(query);
-                Statement.setInt(1, id);
+        Bids Object = new Bids();
+        String query = ("select * from bids where id=?");
+        try {
+            Connection Connection = ConnectionFactory.getConnection();
+            PreparedStatement Statement = Connection.prepareStatement(query);
+            Statement.setInt(1, id);
 
-                ResultSet Rezult = Statement.executeQuery();
+            ResultSet Rezult = Statement.executeQuery();
 
-                if (Rezult.next()) {
+            if (Rezult.next()) {
 
-                    Object.setBidid(Rezult.getInt(1));
-                    Object.setBidderid(Rezult.getInt(2));
-                    Object.setItemid(Rezult.getInt(3));
-                    Object.setBid(Rezult.getInt(4));
+                Object.setBidid(Rezult.getInt(1));
+                Object.setBidderid(Rezult.getInt(2));
+                Object.setItemid(Rezult.getInt(3));
+                Object.setBid(Rezult.getInt(4));
 
-                    return Object;
-                } else {
-                    return null;
-                }
-            } catch (Exception ex) {
+                return Object;
+            } else {
                 return null;
             }
-        
+        } catch (Exception ex) {
+            return null;
+        }
+
     }
 
     @Override
@@ -119,12 +117,11 @@ public class BidsDao implements IDao<Bids> {
                 Object.setBid(Rezult.getInt(4));
                 objectCollection.add(Object);
             }
-           
 
         } catch (Exception ex) {
-            
+
         }
-         return objectCollection;
+        return objectCollection;
     }
 
 }

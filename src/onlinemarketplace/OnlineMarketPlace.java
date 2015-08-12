@@ -29,8 +29,14 @@ public class OnlineMarketPlace {
 
     /**
      * @param args the command line arguments
+     * @throws java.lang.Exception
      */
-    public static void main(String[] args) throws Exception  {
+    public static void main(String[] args) throws Exception  
+    {
+       
+
+         
+
         /* Connection Connection = ConnectionFactory.getConnection();
         IDao bidsDao = new BidsDao();
         List <Bids> bids = bidsDao.getList(); 
@@ -38,7 +44,7 @@ public class OnlineMarketPlace {
         System.out.println(it.next());}
          */ 
  
-        Item item; 
+    /*    Item item; 
         item = new Item(5, "кот",  3, java.util.Calendar.getInstance().getTime());
         item.setSellerid(3);
         item.setDescription("кот домашний");
@@ -46,8 +52,8 @@ public class OnlineMarketPlace {
         item.setBidincrement(1);
         item.setBuyitnow(0);
         ItemDao dao = new ItemDao(); 
-        dao.insert(item);
+        dao.insert(item);*/
         
-    }
+    
 
-}
+}}
