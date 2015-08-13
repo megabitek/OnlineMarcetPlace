@@ -13,6 +13,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import onlinemarketplace.ConnectionFactory;
 
 /**
@@ -24,9 +26,10 @@ public class UserListDao implements IDao<Userlist> {
     @Override
     public void insert(Userlist t) {
 
-        String query = "insert into userlist (userid, fullname, login , password, billingadress) values (?, ?, ?, ?, ?)";
-        Connection connection = null;
         try {
+            String query = "insert into userlist (userid, fullname, login , password, billingadress) values (?, ?, ?, ?, ?)";
+            Connection connection = null;
+            //  try {
             connection = ConnectionFactory.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, t.getUserid());
@@ -36,8 +39,15 @@ public class UserListDao implements IDao<Userlist> {
             preparedStatement.setString(5, t.getBillingadress());
 
             preparedStatement.execute();
-        } catch (SQLException ex) {
+            /*  } catch (SQLException ex) {
+            System.out.println("not insert user");
+            } catch (Exception ex) {
+            System.out.println("not insert user");
+            }*/
+       // } catch (SQLException ex) {
+         //   Logger.getLogger(UserListDao.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
+            Logger.getLogger(UserListDao.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

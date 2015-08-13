@@ -5,21 +5,8 @@
  */
 package onlinemarketplace;
 
-import DAO.BidsDao;
-import DAO.IDao;
-import DAO.ItemDao;
-import Domain.Bids;
-import Domain.Item;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import static jdk.nashorn.internal.runtime.regexp.joni.Syntax.Java;
+import DAO.UserListDao;
+import Domain.Userlist;
 
 /**
  *
@@ -54,6 +41,8 @@ public class OnlineMarketPlace {
         ItemDao dao = new ItemDao(); 
         dao.insert(item);*/
         
-    
+    Userlist userlogin = new Userlist(6, "Yulya", "login", "333", "---"); 
+    UserListDao dao = new UserListDao();
+    dao.insert(userlogin);
 
 }}

@@ -15,7 +15,7 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Userlist  {
 
     private static final long serialVersionUID = 1L;
-    private int userid;
+    private int userId;
     private String fullname;
     private String login;
     private String password;
@@ -26,11 +26,11 @@ public class Userlist  {
     }
 
     public Userlist(int userid) {
-        this.userid = userid;
+        this.userId = userid;
     }
 
     public Userlist(int userid, String fullname, String login, String password, String billingAdress) {
-        this.userid = userid;
+        this.userId = userid;
         this.fullname = fullname;
         this.login=login; 
         this.password= password; 
@@ -38,11 +38,11 @@ public class Userlist  {
     }
 
     public int getUserid() {
-        return userid;
+        return userId;
     }
 
     public void setUserid(int userid) {
-        this.userid = userid;
+        this.userId = userid;
     }
 
     public String getFullname() {
@@ -76,16 +76,23 @@ public class Userlist  {
     public void setBillingadress(String billingadress) {
         this.billingadress = billingadress;
     }
-
-
-    public void setBidsCollection(Collection<Bids> bidsCollection) {
-        this.bidsCollection = bidsCollection;
-    }
+    
+    
+@Override
+    public boolean equals(Object object) {
+        if (!(object instanceof Userlist)) {
+            return false;
+        }
+        Userlist other = (Userlist) object;
+       return this.userId==userId; 
+           
+        
+    }  
 
   
     @Override
     public String toString() {
-        return "Domain.Userlist[ userid=" + userid + " ]";
+        return "Domain.Userlist[ userid=" + userId + " ]";
     }
 
 }
