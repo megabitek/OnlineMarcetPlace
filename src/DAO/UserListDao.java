@@ -39,44 +39,49 @@ public class UserListDao implements IDao<Userlist> {
             preparedStatement.setString(5, t.getBillingadress());
 
             preparedStatement.execute();
-            /*  } catch (SQLException ex) {
+             } catch (SQLException ex) {
             System.out.println("not insert user");
             } catch (Exception ex) {
             System.out.println("not insert user");
-            }*/
+            }
        // } catch (SQLException ex) {
          //   Logger.getLogger(UserListDao.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
-            Logger.getLogger(UserListDao.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
     }
 
     @Override
     public void delete(Userlist t) {
-        String query = "delete from userlist where id = ?";
         try {
-            Connection Connection = ConnectionFactory.getConnection();
-            PreparedStatement preparedStatement = Connection.prepareStatement(query);
+        String query = "delete from userlist where userid = ?";
+        
+            Connection connection = ConnectionFactory.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, t.getUserid());
             preparedStatement.execute();
+        } catch (SQLException ex) {
+            System.out.println("Not delete user!");
         } catch (Exception ex) {
+       
         }
     }
 
     @Override
     public void update(Userlist t) {
-        String query = ("update user set fullname=?,  login=?, password=?, billingadress=?  where bidid=?");
+        String query = ("update userlist set fullname=?,  login=?, password=?, billingadress=?  where userid=?");
         try {
 
-            Connection Connection = ConnectionFactory.getConnection();
-            PreparedStatement preparedStatement = Connection.prepareStatement(query);
-            preparedStatement.setInt(4, t.getUserid());
+            Connection connection = ConnectionFactory.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(5, t.getUserid());
             preparedStatement.setString(1, t.getFullname());
             preparedStatement.setString(2, t.getLogin());
-            preparedStatement.setString(3, t.getBillingadress());
+            preparedStatement.setString(3, t.getPassword());
+            preparedStatement.setString(4, t.getBillingadress());
+            
             preparedStatement.execute();
         } catch (Exception ex) {
         }
+        
     }
 
     @Override
@@ -134,5 +139,32 @@ public class UserListDao implements IDao<Userlist> {
         }
 
     }
+    
+    public Userlist getUserByLogin(String login) {
+    Userlist Object = new Userlist();
+        String query = ("select * from userlist where login=?");
+        try {
+            Connection Connection = ConnectionFactory.getConnection();
+            PreparedStatement statement = Connection.prepareStatement(query);
+            statement.setString(1, login);
 
+            ResultSet Rezult = statement.executeQuery();
+
+            if (Rezult.next()) {
+
+                Object.setUserid(Rezult.getInt(1));
+                Object.setFullname(Rezult.getString(2));
+                Object.setLogin(Rezult.getString(3));
+                Object.setPassword(Rezult.getString(4));
+                Object.setBillingadress(Rezult.getString(5));
+
+                return Object;
+            } else {
+                return null;
+            }
+        } catch (Exception ex) {
+            return null;
+        }
+
+    }
 }

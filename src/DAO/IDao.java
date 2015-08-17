@@ -18,6 +18,5 @@ public interface IDao <T>  {
     public void update (T t);
     public T searchByID (int id);
     public List<T> getList();
-    
-    
+
 }

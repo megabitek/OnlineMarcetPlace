@@ -43,6 +43,6 @@ public class OnlineMarketPlace {
         
     Userlist userlogin = new Userlist(6, "Yulya", "login", "333", "---"); 
     UserListDao dao = new UserListDao();
-    dao.insert(userlogin);
+    dao.delete(userlogin);
 
 }}

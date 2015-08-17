@@ -29,7 +29,9 @@ public class ConnectionFactory {
             return connections;
         }
     }
-
+public static void setCommit(boolean commit) throws SQLException, Exception{
+getConnection().setAutoCommit(commit);
+}
     private static Connection createConnection() throws IOException, ClassNotFoundException {
         String FILE_PROPERTY_NAME = "/utils/database.properties";
         Properties properties = new Properties();
@@ -45,6 +47,7 @@ public class ConnectionFactory {
             Class.forName(/*properties.getProperty(driverName)*/"oracle.jdbc.driver.OracleDriver");
             java.sql.Connection connection = DriverManager.getConnection(connectionString, userName, password);
 // создание подключения*/
+         //  connection.setAutoCommit(false);
             return connection;
         //} catch (IOException ex) {
             //   System.out.println("Not connection!!! ");

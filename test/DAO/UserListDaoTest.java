@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 import onlinemarketplace.ConnectionFactory;
+import static org.eclipse.persistence.config.ExclusiveConnectionMode.Transactional;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -31,20 +32,27 @@ public class UserListDaoTest {
 
     @BeforeClass
     public static void setUpClass() throws Exception {
-
+       // ConnectionFactory.getConnection().setAutoCommit(false);
+   //     System.out.println(ConnectionFactory.getConnection().getAutoCommit());
     }
 
     @AfterClass
-    public static void tearDownClass() {
+    public static void tearDownClass() throws Exception {
 
-    }
+      /*  System.out.println(ConnectionFactory.getConnection().getAutoCommit());
+        ConnectionFactory.getConnection().rollback();
+    */}
 
     @Before
     public void setUp() throws Exception {
+        //ConnectionFactory.getConnection().setAutoCommit(false);
+       // System.out.println(ConnectionFactory.getConnection().getAutoCommit());
     }
 
     @After
-    public void tearDown() {
+    public void tearDown() throws Exception {
+    //    ConnectionFactory.getConnection().rollback();
+     //   ConnectionFactory.getConnection().close();
     }
 
     @Test
@@ -65,27 +73,64 @@ public class UserListDaoTest {
 
     @Test
     public void testAddUser() throws Exception {
-        ConnectionFactory.getConnection().setAutoCommit(false);
+     //   ConnectionFactory.setCommit(false);
+     //   System.out.println(ConnectionFactory.getConnection().getAutoCommit());
         UserListDao dao = new UserListDao();
         Userlist newUser = new Userlist(6, "Yuri Pavlov", "pavl", "558", "Moskovskaya str, 13, Moskow");
         int firstSize = dao.getList().size();
         dao.insert(newUser);
-        assertEquals(firstSize + 1, dao.getList().size());
-        ConnectionFactory.getConnection().rollback();
+        int sizeAfterAdd = dao.getList().size();
+        dao.delete(newUser);
+        assertEquals(firstSize + 1,sizeAfterAdd);
+       // ConnectionFactory.getConnection().rollback();
+    }
+
+    @Test(expected = java.lang.AssertionError.class)
+    public void testAddUserLogin() {
+        boolean thrown = false;
+        UserListDao dao = new UserListDao();
+        Userlist newUser = new Userlist(7, "Sergei Smirnov", "login", "555", "---");
+        dao.insert(newUser);
+        fail();
+
     }
 
     @Test
-    public void testAddUserLogin() {
-        boolean thrown= false;
+    public void testGetUserByLogin() {
         UserListDao dao = new UserListDao();
-        Userlist newUser = new Userlist(7, "Sergei Smirnov", "login", "555", "---");
-        try {
-            dao.insert(newUser);
-        } catch (Exception e) {
-            thrown = true;
-        }
-        assertTrue(thrown);
+        Userlist user = dao.getUserByLogin("login");
+        assertEquals(5, user.getUserid());
+        assertEquals("Nikita Smirnov", user.getFullname());
+        assertEquals("login", user.getLogin());
+        assertEquals("555", user.getPassword());
+        assertEquals("---", user.getBillingadress());
 
     }
 
+    @Test
+    public void testLoginNotExist() {
+        UserListDao dao = new UserListDao();
+        Userlist user = dao.getUserByLogin("login2");
+        assertNull(user);
+
+    }
+    @Test
+    public void testChangeLogin(){
+    UserListDao dao = new UserListDao();
+    Userlist UserLogin = dao.getUserByLogin("login");
+    Userlist oldUserLogin= dao.getUserByLogin("login");
+    if (oldUserLogin!=null){
+    oldUserLogin.setFullname("Masha");
+    oldUserLogin.setPassword("masha");
+    oldUserLogin.setBillingadress("ul. Gvardejskaya 4");
+    dao.update(oldUserLogin);
+    Userlist newUserLogin= dao.getUserByLogin("login");
+    dao.update(UserLogin);
+    
+    assertEquals(newUserLogin.getUserid(), 5);
+    assertEquals(newUserLogin.getFullname(), "Masha");
+    assertEquals(newUserLogin.getLogin(), "login");
+    assertEquals(newUserLogin.getPassword(), "masha");
+    assertEquals(newUserLogin.getBillingadress(), "ul. Gvardejskaya 4");
+    }}
 }
