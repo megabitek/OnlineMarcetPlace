@@ -5,7 +5,6 @@
  */
 package DAO;
 
-import Domain.Bids;
 import Domain.Userlist;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,8 +12,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import onlinemarketplace.ConnectionFactory;
 
 /**
@@ -39,29 +36,31 @@ public class UserListDao implements IDao<Userlist> {
             preparedStatement.setString(5, t.getBillingadress());
 
             preparedStatement.execute();
-             } catch (SQLException ex) {
+             connection.close();
+        } catch (SQLException ex) {
             System.out.println("not insert user");
-            } catch (Exception ex) {
+        } catch (Exception ex) {
             System.out.println("not insert user");
-            }
-       // } catch (SQLException ex) {
-         //   Logger.getLogger(UserListDao.class.getName()).log(Level.SEVERE, null, ex);
-        
+        }
+        // } catch (SQLException ex) {
+        //   Logger.getLogger(UserListDao.class.getName()).log(Level.SEVERE, null, ex);
+
     }
 
     @Override
     public void delete(Userlist t) {
         try {
-        String query = "delete from userlist where userid = ?";
-        
+            String query = "delete from userlist where userid = ?";
+
             Connection connection = ConnectionFactory.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, t.getUserid());
             preparedStatement.execute();
+            connection.close();
         } catch (SQLException ex) {
             System.out.println("Not delete user!");
         } catch (Exception ex) {
-       
+
         }
     }
 
@@ -77,11 +76,12 @@ public class UserListDao implements IDao<Userlist> {
             preparedStatement.setString(2, t.getLogin());
             preparedStatement.setString(3, t.getPassword());
             preparedStatement.setString(4, t.getBillingadress());
-            
+
             preparedStatement.execute();
+            connection.close();
         } catch (Exception ex) {
         }
-        
+
     }
 
     @Override
@@ -89,8 +89,8 @@ public class UserListDao implements IDao<Userlist> {
         List<Userlist> objectCollection = new ArrayList<>();
         String query = ("select * from userlist");
         try {
-            Connection Connection = ConnectionFactory.getConnection();
-            PreparedStatement Statement = Connection.prepareStatement(query);
+            Connection connection = ConnectionFactory.getConnection();
+            PreparedStatement Statement = connection.prepareStatement(query);
             ResultSet Rezult = Statement.executeQuery();
             while (Rezult.next()) {
                 Userlist Object = new Userlist();
@@ -102,10 +102,11 @@ public class UserListDao implements IDao<Userlist> {
                 Object.setBillingadress(Rezult.getString(5));
                 objectCollection.add(Object);
             }
-
+            connection.close();
         } catch (Exception ex) {
             return null;
         }
+
         return objectCollection;
 
     }
@@ -116,8 +117,8 @@ public class UserListDao implements IDao<Userlist> {
         Userlist Object = new Userlist();
         String query = ("select * from userlist where id=?");
         try {
-            Connection Connection = ConnectionFactory.getConnection();
-            PreparedStatement Statement = Connection.prepareStatement(query);
+            Connection connection = ConnectionFactory.getConnection();
+            PreparedStatement Statement = connection.prepareStatement(query);
             Statement.setInt(1, id);
 
             ResultSet Rezult = Statement.executeQuery();
@@ -129,9 +130,10 @@ public class UserListDao implements IDao<Userlist> {
                 Object.setLogin(Rezult.getString(3));
                 Object.setPassword(Rezult.getString(4));
                 Object.setBillingadress(Rezult.getString(5));
-
+                connection.close();
                 return Object;
             } else {
+                connection.close();
                 return null;
             }
         } catch (Exception ex) {
@@ -139,13 +141,13 @@ public class UserListDao implements IDao<Userlist> {
         }
 
     }
-    
+
     public Userlist getUserByLogin(String login) {
-    Userlist Object = new Userlist();
+        Userlist Object = new Userlist();
         String query = ("select * from userlist where login=?");
         try {
-            Connection Connection = ConnectionFactory.getConnection();
-            PreparedStatement statement = Connection.prepareStatement(query);
+            Connection connection = ConnectionFactory.getConnection();
+            PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, login);
 
             ResultSet Rezult = statement.executeQuery();
@@ -157,12 +159,17 @@ public class UserListDao implements IDao<Userlist> {
                 Object.setLogin(Rezult.getString(3));
                 Object.setPassword(Rezult.getString(4));
                 Object.setBillingadress(Rezult.getString(5));
-
+                connection.close();
                 return Object;
+
             } else {
+                connection.close();
                 return null;
+
             }
+
         } catch (Exception ex) {
+
             return null;
         }
 

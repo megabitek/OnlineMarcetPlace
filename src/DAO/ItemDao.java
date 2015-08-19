@@ -66,8 +66,8 @@ public class ItemDao implements IDao<Item> {
         String query = ("update item set sellerId =?, title=?, description=?, startPrice=?, timeleft, startBindingData, bidincrement, buyitnow where itemId = ?");
         try {
 
-            Connection Connection = ConnectionFactory.getConnection();
-            PreparedStatement preparedStatement = Connection.prepareStatement(query);
+            Connection connection = ConnectionFactory.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(9, t.getItemid());
             preparedStatement.setInt(1, t.getSellerid());
             preparedStatement.setString(2, t.getTitle());
@@ -78,6 +78,7 @@ public class ItemDao implements IDao<Item> {
             preparedStatement.setInt(7, t.getBidincrement());
             preparedStatement.setInt(8, t.getBuyitnow());
             preparedStatement.execute();
+            connection.close();
         } catch (Exception ex) {
         }
 
@@ -105,8 +106,9 @@ public class ItemDao implements IDao<Item> {
                 Object.setBuyitnow(Rezult.getInt(9));
                 objectCollection.add(Object);
             }
-
+            connection.close();
         } catch (Exception ex) {
+
             return null;
         }
         return objectCollection;
@@ -119,8 +121,8 @@ public class ItemDao implements IDao<Item> {
         Item Object = new Item();
         String query = ("select * from item where itemid=?");
         try {
-            Connection Connection = ConnectionFactory.getConnection();
-            PreparedStatement statement = Connection.prepareStatement(query);
+            Connection connection = ConnectionFactory.getConnection();
+            PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, id);
 
             ResultSet Rezult = statement.executeQuery();
@@ -136,9 +138,10 @@ public class ItemDao implements IDao<Item> {
                 Object.setStartbindingdata(Rezult.getDate(7));
                 Object.setBidincrement(Rezult.getInt(8));
                 Object.setBuyitnow(Rezult.getInt(9));
-
+                connection.close();
                 return Object;
             } else {
+                connection.close();
                 return null;
             }
         } catch (Exception ex) {
@@ -150,8 +153,8 @@ public class ItemDao implements IDao<Item> {
         List<Item> objectCollection = new ArrayList<>();
         String query = "select * from item where title like" + "'%" + substring + "%'";
         try {
-            Connection Connection = ConnectionFactory.getConnection();
-            PreparedStatement Statement = Connection.prepareStatement(query);
+            Connection connection = ConnectionFactory.getConnection();
+            PreparedStatement Statement = connection.prepareStatement(query);
             ResultSet Rezult = Statement.executeQuery();
             while (Rezult.next()) {
                 Item Object = new Item();
@@ -167,19 +170,19 @@ public class ItemDao implements IDao<Item> {
                 Object.setBuyitnow(Rezult.getInt(9));
                 objectCollection.add(Object);
             }
-
+            connection.close();
         } catch (Exception ex) {
             return null;
         }
         return objectCollection;
     }
 
-     public List<Item> searchBySubstringDescription(String substring) {
+    public List<Item> searchBySubstringDescription(String substring) {
         List<Item> objectCollection = new ArrayList<>();
         String query = "select * from item where description like" + "'%" + substring + "%'";
         try {
-            Connection Connection = ConnectionFactory.getConnection();
-            PreparedStatement Statement = Connection.prepareStatement(query);
+            Connection connection = ConnectionFactory.getConnection();
+            PreparedStatement Statement = connection.prepareStatement(query);
             ResultSet Rezult = Statement.executeQuery();
             while (Rezult.next()) {
                 Item Object = new Item();
@@ -195,7 +198,7 @@ public class ItemDao implements IDao<Item> {
                 Object.setBuyitnow(Rezult.getInt(9));
                 objectCollection.add(Object);
             }
-
+            connection.close();
         } catch (Exception ex) {
             return null;
         }
