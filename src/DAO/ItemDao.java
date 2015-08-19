@@ -51,7 +51,7 @@ public class ItemDao implements IDao<Item> {
 
     @Override
     public void delete(Item t) {
-        String query = "delete from item where id = ?";
+        String query = "delete from item where itemid = ?";
         try {
             Connection Connection = ConnectionFactory.getConnection();
             PreparedStatement preparedStatement = Connection.prepareStatement(query);
@@ -88,8 +88,8 @@ public class ItemDao implements IDao<Item> {
         List<Item> objectCollection = new ArrayList<>();
         String query = ("select * from item");
         try {
-            Connection Connection = ConnectionFactory.getConnection();
-            PreparedStatement Statement = Connection.prepareStatement(query);
+            Connection connection = ConnectionFactory.getConnection();
+            PreparedStatement Statement = connection.prepareStatement(query);
             ResultSet Rezult = Statement.executeQuery();
             while (Rezult.next()) {
                 Item Object = new Item();
@@ -117,13 +117,13 @@ public class ItemDao implements IDao<Item> {
     public Item searchByID(int id) {
 
         Item Object = new Item();
-        String query = ("select * from item where id=?");
+        String query = ("select * from item where itemid=?");
         try {
             Connection Connection = ConnectionFactory.getConnection();
-            PreparedStatement Statement = Connection.prepareStatement(query);
-            Statement.setInt(1, id);
+            PreparedStatement statement = Connection.prepareStatement(query);
+            statement.setInt(1, id);
 
-            ResultSet Rezult = Statement.executeQuery();
+            ResultSet Rezult = statement.executeQuery();
 
             if (Rezult.next()) {
 
@@ -146,4 +146,88 @@ public class ItemDao implements IDao<Item> {
         }
     }
 
+    public List<Item> searchBySubstring(String substring) {
+        List<Item> objectCollection = new ArrayList<>();
+        String query = "select * from item where title like" + "'%" + substring + "%'";
+        try {
+            Connection Connection = ConnectionFactory.getConnection();
+            PreparedStatement Statement = Connection.prepareStatement(query);
+            ResultSet Rezult = Statement.executeQuery();
+            while (Rezult.next()) {
+                Item Object = new Item();
+
+                Object.setItemid(Rezult.getInt(1));
+                Object.setSellerid(Rezult.getInt(2));
+                Object.setTitle(Rezult.getString(3));
+                Object.setDescription(Rezult.getString(4));
+                Object.setStartprice(Rezult.getDouble(5));
+                Object.setTimeleft(Rezult.getInt(6));
+                Object.setStartbindingdata(Rezult.getDate(7));
+                Object.setBidincrement(Rezult.getInt(8));
+                Object.setBuyitnow(Rezult.getInt(9));
+                objectCollection.add(Object);
+            }
+
+        } catch (Exception ex) {
+            return null;
+        }
+        return objectCollection;
+    }
+
+     public List<Item> searchBySubstringDescription(String substring) {
+        List<Item> objectCollection = new ArrayList<>();
+        String query = "select * from item where description like" + "'%" + substring + "%'";
+        try {
+            Connection Connection = ConnectionFactory.getConnection();
+            PreparedStatement Statement = Connection.prepareStatement(query);
+            ResultSet Rezult = Statement.executeQuery();
+            while (Rezult.next()) {
+                Item Object = new Item();
+
+                Object.setItemid(Rezult.getInt(1));
+                Object.setSellerid(Rezult.getInt(2));
+                Object.setTitle(Rezult.getString(3));
+                Object.setDescription(Rezult.getString(4));
+                Object.setStartprice(Rezult.getDouble(5));
+                Object.setTimeleft(Rezult.getInt(6));
+                Object.setStartbindingdata(Rezult.getDate(7));
+                Object.setBidincrement(Rezult.getInt(8));
+                Object.setBuyitnow(Rezult.getInt(9));
+                objectCollection.add(Object);
+            }
+
+        } catch (Exception ex) {
+            return null;
+        }
+        return objectCollection;
+    }
+
+    public List<Item> searchBySeller(int sellerId) {
+        List<Item> objectCollection = new ArrayList<>();
+        String query = "select * from item where sellerid=?";
+        try {
+            Connection connection = ConnectionFactory.getConnection();
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, sellerId);
+            ResultSet Rezult = statement.executeQuery();
+            while (Rezult.next()) {
+                Item Object = new Item();
+
+                Object.setItemid(Rezult.getInt(1));
+                Object.setSellerid(Rezult.getInt(2));
+                Object.setTitle(Rezult.getString(3));
+                Object.setDescription(Rezult.getString(4));
+                Object.setStartprice(Rezult.getDouble(5));
+                Object.setTimeleft(Rezult.getInt(6));
+                Object.setStartbindingdata(Rezult.getDate(7));
+                Object.setBidincrement(Rezult.getInt(8));
+                Object.setBuyitnow(Rezult.getInt(9));
+                objectCollection.add(Object);
+            }
+
+        } catch (Exception ex) {
+            return null;
+        }
+        return objectCollection;
+    }
 }

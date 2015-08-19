@@ -6,20 +6,14 @@
 package DAO;
 
 import Domain.Userlist;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
-import onlinemarketplace.ConnectionFactory;
-import static org.eclipse.persistence.config.ExclusiveConnectionMode.Transactional;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import org.junit.Rule;
-import org.junit.rules.ExpectedException;
 
 /**
  *

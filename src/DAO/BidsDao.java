@@ -44,7 +44,7 @@ public class BidsDao implements IDao<Bids> {
 
     @Override
     public void delete(Bids t) {
-        String query = "delete from bids where id = ?";
+        String query = "delete from bids where bidid = ?";
         try {
             Connection Connection = ConnectionFactory.getConnection();
             PreparedStatement preparedStatement = Connection.prepareStatement(query);
@@ -124,4 +124,49 @@ public class BidsDao implements IDao<Bids> {
         return objectCollection;
     }
 
+    public List<Bids> getByItem(int itemid) {
+        List<Bids> objectCollection = new ArrayList<Bids>();
+        String query = "select * from bids where itemid=?";
+        try {
+            Connection connection = ConnectionFactory.getConnection();
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, itemid);
+            ResultSet Rezult = statement.executeQuery();
+            while (Rezult.next()) {
+                Bids Object = new Bids();
+
+                Object.setBidid(Rezult.getInt(1));
+                Object.setBidderid(Rezult.getInt(2));
+                Object.setItemid(Rezult.getInt(3));
+                Object.setBid(Rezult.getInt(4));
+                objectCollection.add(Object);
+            }
+
+        } catch (Exception ex) {
+            return null;
+        }
+        return objectCollection;
+    }
+
+    public int getBestBidsByitem(int itemid) {
+
+        String query = ("select max(bid) from bids where itemid=?");
+        Connection Connection;
+        try {
+            Connection = ConnectionFactory.getConnection();
+            PreparedStatement Statement;
+            Statement = Connection.prepareStatement(query);
+            Statement.setInt(1, itemid);
+            ResultSet Rezult = Statement.executeQuery();
+            if (Rezult.next()) {
+                return Rezult.getInt(1);
+            } else {
+                return 0;
+            }
+
+        } catch (Exception ex) {
+            return 0;
+        }
+
+    }
 }

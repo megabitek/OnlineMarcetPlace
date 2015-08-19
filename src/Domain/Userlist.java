@@ -84,7 +84,7 @@ public class Userlist  {
             return false;
         }
         Userlist other = (Userlist) object;
-       return this.userId==userId; 
+       return this.userId==((Userlist) object).userId; 
            
         
     }  

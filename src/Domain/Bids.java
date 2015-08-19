@@ -24,8 +24,11 @@ public class Bids {
         this.bidid = bidid;
     }
 
-    public Bids(int bidid, int bid) {
+    public Bids(int bidid, int bidderid, int itemid,  int bid) {
+        
         this.bidid = bidid;
+        this.bidderid=bidderid;
+        this.itemid=itemid;
         this.bid = bid;
     }
 
@@ -61,22 +64,21 @@ public class Bids {
         this.bidderid = bidderid;
     }
 
-  /*  @Override
-    public int hashCode() {
-    
-        int hash += (bidid != null ? bidid.hashCode() : 0);
-        return hash;
-    }*/
 
-   /* @Override
+    @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Bids)) {
+        if (!(object instanceof Item)) {
             return false;
         }
         Bids other = (Bids) object;
-        return !((this.bidid == null && other.bidid != null) || (this.bidid != null && !this.bidid.equals(other.bidid)));
-    }*/
+       return this.bidid==other.bidid; }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 19 * hash + this.bidid;
+        return hash;
+    }
 
     @Override
     public String toString() {

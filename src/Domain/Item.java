@@ -17,13 +17,13 @@ import javax.xml.bind.annotation.XmlTransient;
  *
  * @author admin
  */
+public class Item {
 
-public class Item{
     private static final long serialVersionUID = 1L;
     @Id
-    
+
     private int itemid;
-    
+
     private String title;
     private String description;
     private double startprice;
@@ -48,7 +48,6 @@ public class Item{
         this.startbindingdata = startbindingdata;
     }
 
-     
     public int getItemid() {
         return itemid;
     }
@@ -129,30 +128,36 @@ public class Item{
     public void setBidsCollection(Collection<Bids> bidsCollection) {
         this.bidsCollection = bidsCollection;
     }
+    
 
     /*@Override
+     public int hashCode() {
+     int hash = 0;
+     hash += (itemid != null ? itemid.hashCode() : 0);
+     return hash;
+     }
+
+     */
+    @Override
+    public boolean equals(Object object) {
+         if (!(object instanceof Item)) {
+            return false;
+        }
+        Item other = (Item) object;
+       return this.itemid==((Item) object).itemid; 
+           
+    }
+
+    @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (itemid != null ? itemid.hashCode() : 0);
+        int hash = 5;
+        hash = 53 * hash + this.itemid;
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Item)) {
-            return false;
-        }
-        Item other = (Item) object;
-        if ((this.itemid == null && other.itemid != null) || (this.itemid != null && !this.itemid.equals(other.itemid))) {
-            return false;
-        }
-        return true;
-    }
-*/
-    @Override
     public String toString() {
         return "Domain.Item_1[ itemid=" + itemid + " ]";
     }
-    
+
 }
